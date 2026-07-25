@@ -7,7 +7,8 @@ import TransactionList from './components/TransactionList.jsx'
 const App = () => {
 
 
-//states
+//states...
+
   const [transactions, setTransactions] = useState(()=> {
     const saved = localStorage.getItem('transactions')
     return saved ? JSON.parse(saved) : []
@@ -16,10 +17,25 @@ const App = () => {
   const [categoryFilter, setCategoryFilter] = useState('all')
   const [editingTransaction, setEditingTransaction] = useState(null)
 
+  const [darkMode, setDarkMode] = useState(false)
+
+//use Effects...
 
   useEffect(()=>{
     localStorage.setItem('transactions', JSON.stringify(transactions))
   },[transactions])
+
+  useEffect(()=> {
+    const root = document.documentElement
+    if(darkMode){
+      root.classList.add('dark')
+    }else{
+      root.classList.remove('dark')
+    }
+
+  },[darkMode])
+
+
 
 
   function handleAddTransaction(newTransaction) {
@@ -56,8 +72,8 @@ const App = () => {
 
 
  return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+      <Navbar  darkMode={darkMode} setDarkMode={setDarkMode}/>
       <Dashboard transactions={transactions} />
       <div className="px-6 pb-10">
         <TransactionForm

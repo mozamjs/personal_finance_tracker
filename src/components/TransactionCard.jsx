@@ -5,11 +5,11 @@ const TransactionCard = ({transaction , onDelete, onEdit}) => {
     const isIncome = transaction.type === 'income'
 
   return (
-    <div className='flex item-center justify-between bg-white rounded-lg px-4 py-3 sgadow-sm'>
+    <div className='flex item-center justify-between bg-white dark:bg-gray-800 rounded-lg px-4 py-3 shadow-sm'>
 
         <div>
 
-            <p className='font-medium text-sm'>{transaction.category}</p>
+            <p className='font-medium text-sm dark:text-white'>{transaction.category}</p>
 
             <p className='text-xs text-gray-400'>{transaction.date }</p>
 

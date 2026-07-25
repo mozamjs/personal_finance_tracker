@@ -62,10 +62,10 @@ const TransactionForm = ({ onAddTransaction, onUpdateTransaction, editingTransac
 
     <form
       onSubmit={handleSubmit}
-      className="bg-white rounded-xl shadow-sm p-5 flex flex-col gap-3"
+  className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-5 flex flex-col gap-3"
     >
 
-      <h2 className="font-semibold text-lg mb-1">
+      <h2 className="font-semibold text-lg mb-1 dark:text-white">
         {editingTransaction ? 'Edit Transaction' : 'Add Transaction'}
       </h2>
 
@@ -99,7 +99,7 @@ const TransactionForm = ({ onAddTransaction, onUpdateTransaction, editingTransac
         placeholder="Amount"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
-        className="border rounded-lg px-3 py-2 text-sm"
+        className="border rounded-lg px-3 py-2 text-sm  dark:bg-gray-700 dark:text-white dark:border-gray-600"
       />
 
       <input
@@ -107,7 +107,7 @@ const TransactionForm = ({ onAddTransaction, onUpdateTransaction, editingTransac
         placeholder="Category (e.g. Food, Salary)"
         value={category}
         onChange={(e) => setCategory(e.target.value)}
-        className="border rounded-lg px-3 py-2 text-sm"
+        className="border rounded-lg px-3 py-2 text-sm dark:bg-gray-700 dark:text-white dark:border-gray-600"
       />
 
 
@@ -116,7 +116,7 @@ const TransactionForm = ({ onAddTransaction, onUpdateTransaction, editingTransac
         placeholder="Note (optional)"
         value={note}
         onChange={(e) => setNote(e.target.value)}
-        className="border rounded-lg px-3 py-2 text-sm"
+        className="border rounded-lg px-3 py-2 text-sm dark:bg-gray-700 dark:text-white dark:border-gray-600"
       />
 
 
@@ -128,12 +128,6 @@ const TransactionForm = ({ onAddTransaction, onUpdateTransaction, editingTransac
       </button>
 
     </form>
-
-
-
-
-
-
     
   )
 }
