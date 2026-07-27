@@ -3,7 +3,9 @@ import TransactionCard from "./TransactionCard";
 
 const TransactionList = ({transactions, onDelete, onEdit}) => {
 
-    if(transactions.length === 0)
+console.log('transactionList recieved:' ,transactions)
+
+    if(!transactions || transactions.length === 0)
     {
         return(
             <p className="text-sm text-gray-400 text-center mt-6">

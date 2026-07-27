@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import { Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar.jsx'
-import Dashboard from './components/Dashboard.jsx'
-import TransactionForm from './components/TransactionForm.jsx'
-import TransactionList from './components/TransactionList.jsx'
+import Home from './pages/Home.jsx'
+import Transactions from './pages/Transactions.jsx'
+import Settings from './pages/Settings.jsx'
 
 const App = () => {
 
@@ -16,7 +17,6 @@ const App = () => {
   const [searchText, setSearchText] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('all')
   const [editingTransaction, setEditingTransaction] = useState(null)
-
   const [darkMode, setDarkMode] = useState(false)
 
 //use Effects...
@@ -68,51 +68,43 @@ const App = () => {
   .filter((t)=> t.category.toLowerCase().includes(searchText.toLowerCase()))
   .filter((t)=> categoryFilter === 'all' || t.category === categoryFilter)
 
+  console.log("transaction", transactions)
+  console.log("filteredTransactions", filteredTransactions)
+
   
-
-
- return (
+  return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
-      <Navbar  darkMode={darkMode} setDarkMode={setDarkMode}/>
-      <Dashboard transactions={transactions} />
-      <div className="px-6 pb-10">
-        <TransactionForm
-         onAddTransaction={handleAddTransaction} 
-         onUpdateTransaction={handleUpdateTransaction}
-         editingTransaction={editingTransaction}
-         />
+      <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
 
-        <div className="flex gap-3 mt-4">
-          <input
-            type="text"
-            placeholder="Search by category..."
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            className="border rounded-lg px-3 py-2 text-sm w-full"
-          />
-
-          <select
-            value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
-            className="border rounded-lg px-3 py-2 text-sm"
-          >
-            <option value="all">All Categories</option>
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <TransactionList
-          transactions={filteredTransactions}
-          onDelete={handleDeleteTransaction}
-          onEdit={setEditingTransaction}
+      <Routes>
+        <Route path="/" element={<Home transactions={transactions} />} />
+        <Route
+          path="/transactions"
+          element={
+            <Transactions
+              onAddTransaction={handleAddTransaction}
+              onUpdateTransaction={handleUpdateTransaction}
+              editingTransaction={editingTransaction}
+              searchText={searchText}
+              setSearchText={setSearchText}
+              categoryFilter={categoryFilter}
+              setCategoryFilter={setCategoryFilter}
+              categories={categories}
+              filteredTransactions={filteredTransactions}
+              onDelete={handleDeleteTransaction}
+              onEdit={setEditingTransaction}
+            />
+          }
         />
-      </div>
+        <Route
+          path="/settings"
+          element={<Settings darkMode={darkMode} setDarkMode={setDarkMode} />}
+        />
+      </Routes>
     </div>
   )
+
+
 }
 
 export default App
