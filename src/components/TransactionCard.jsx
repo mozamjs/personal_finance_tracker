@@ -1,49 +1,34 @@
-import React from 'react'
-
-const TransactionCard = ({transaction , onDelete, onEdit}) => {
-
-    const isIncome = transaction.type === 'income'
+function TransactionCard({ transaction, onDelete, onEdit }) {
+  const isIncome = transaction.type === 'income'
 
   return (
-    <div className='flex item-center justify-between bg-white dark:bg-gray-800 rounded-lg px-4 py-3 shadow-sm'>
-
+    <div className="group flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-[#1a1a1a] transition-colors border-b border-gray-200 dark:border-[#222222] last:border-0">
+      <div className="flex items-center gap-4">
+        <div className="w-10 h-10 bg-gray-100 dark:bg-[#222222] border border-gray-200 dark:border-transparent rounded-lg flex items-center justify-center">
+          <span className={`material-symbols-outlined ${isIncome ? 'text-green-500 dark:text-green-400' : 'text-gray-600 dark:text-gray-300'}`}>
+            {isIncome ? 'payments' : 'shopping_cart'}
+          </span>
+        </div>
         <div>
-
-            <p className='font-medium text-sm dark:text-white'>{transaction.category}</p>
-
-            <p className='text-xs text-gray-400'>{transaction.date }</p>
-
-            {transaction.note && (
-            <p className=' text-xs text-gray-500 mt-0.5'> {transaction.note}</p>
-            )}
-
+          <h4 className="text-sm font-medium text-gray-900 dark:text-white">{transaction.category}</h4>
+          <span className="text-xs text-gray-400 dark:text-gray-500">{transaction.date}</span>
         </div>
+      </div>
 
-        <div className="flex items-center gap-3">
-             
-            <p className= {`font-semibold text-sm ${isIncome ? 'text-green-600': 'text-red-600'}`}>
-                {isIncome ? '+' : '-'} Rs {transaction.amount}
-            </p>
+      <div className="flex items-center gap-3">
+        <span className={`text-sm font-bold ${isIncome ? 'text-green-500 dark:text-green-400' : 'text-gray-900 dark:text-white'}`}>
+          {isIncome ? '+' : '-'} Rs {transaction.amount}
+        </span>
 
-             <button
-          onClick={() => onEdit(transaction)}
-          className="text-gray-400 hover:text-indigo-500 text-sm"
-        >
-          ✎
-        </button>
-
-            <button
-                onClick={()=> onDelete(transaction.id)}
-                className="text-gray-400 hover:text-red-500 text-sm"
-
-            >
-                ✕
-            </button>
-
-
+        <div className="hidden group-hover:flex items-center gap-2">
+          <button onClick={() => onEdit(transaction)} className="text-gray-400 hover:text-[#cc253e]">
+            <span className="material-symbols-outlined text-lg">edit</span>
+          </button>
+          <button onClick={() => onDelete(transaction.id)} className="text-gray-400 hover:text-[#cc253e]">
+            <span className="material-symbols-outlined text-lg">delete</span>
+          </button>
         </div>
-
-
+      </div>
     </div>
   )
 }

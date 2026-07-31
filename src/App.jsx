@@ -4,13 +4,16 @@ import Navbar from './components/Navbar.jsx'
 import Home from './pages/Home.jsx'
 import Transactions from './pages/Transactions.jsx'
 import Settings from './pages/Settings.jsx'
+import useLocalStorage from './hooks/useLocalStorage.js'
+import Footer from './components/Footer.jsx'
 
 const App = () => {
-  const [darkMode, setDarkMode] = useState(false)
+  const [darkMode, setDarkMode] = useLocalStorage('darkMode', false)
 
   useEffect(() => {
     const root = document.documentElement
     if (darkMode) {
+      
       root.classList.add('dark')
     } else {
       root.classList.remove('dark')
@@ -18,7 +21,7 @@ const App = () => {
   }, [darkMode])
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
+    <div className="min-h-screen bg-gray-50 dark:bg-black transition-colors">
       <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
 
       <Routes>
@@ -29,6 +32,8 @@ const App = () => {
           element={<Settings darkMode={darkMode} setDarkMode={setDarkMode} />}
         />
       </Routes>
+
+      <Footer/>
     </div>
   )
 }

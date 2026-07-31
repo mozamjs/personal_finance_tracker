@@ -1,19 +1,15 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState } from 'react'
+import useLocalStorage from '../hooks/useLocalStorage'
 
 const TransactionContext = createContext()
 
 export function TransactionProvider({ children }) {
-  const [transactions, setTransactions] = useState(() => {
-    const saved = localStorage.getItem('transactions')
-    return saved ? JSON.parse(saved) : []
-  })
+  const [transactions, setTransactions] = useLocalStorage('trasactions', [])
   const [searchText, setSearchText] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('all')
   const [editingTransaction, setEditingTransaction] = useState(null)
 
-  useEffect(() => {
-    localStorage.setItem('transactions', JSON.stringify(transactions))
-  }, [transactions])
+
 
   function addTransaction(newTransaction) {
     setTransactions((prev) => [newTransaction, ...prev])

@@ -1,27 +1,21 @@
-import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts'
-
-const COLORS = ['#22c55e', '#ef4444'] // green for income, red for expense
-
-const ExpenseChart = ({ transactions }) => {
+function ExpenseChart({ transactions }) {
   const totalIncome = transactions
     .filter((t) => t.type === 'income')
     .reduce((sum, t) => sum + t.amount, 0)
 
   const totalExpense = transactions
     .filter((t) => t.type === 'expense')
-    .reduce((sum, t) => sum + t.amount, 0) 
+    .reduce((sum, t) => sum + t.amount, 0)
 
-  const data = [
-    { name: 'Income', value: totalIncome },
-    { name: 'Expense', value: totalExpense },
-  ]
+  const total = totalIncome + totalExpense
+  const expensePercent = total > 0 ? Math.round((totalExpense / total) * 100) : 0
+  const incomePercent = 100 - expensePercent
+  const ratio = totalExpense > 0 ? (totalIncome / totalExpense).toFixed(1) : '0'
 
-  const hasData = totalIncome > 0 || totalExpense > 0
-
-  if (!hasData) {
+  if (total === 0) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-5 mt-4">
-        <h2 className="font-semibold text-lg mb-3 dark:text-white">Overview</h2>
+      <div className="bg-white dark:bg-[#111111] border border-gray-200 dark:border-[#222222] shadow-sm dark:shadow-none rounded-xl p-5 mx-6 mt-6">
+        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Financial Overview</h3>
         <p className="text-sm text-gray-400 text-center py-10">
           Add transactions to see your chart
         </p>
@@ -30,27 +24,33 @@ const ExpenseChart = ({ transactions }) => {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-5 mt-4">
-      <h2 className="font-semibold text-lg mb-3 dark:text-white">Overview</h2>
-      <ResponsiveContainer width="100%" height={250}>
-        <PieChart>
-          <Pie
-            data={data}
-            dataKey="value"
-            nameKey="name"
-            cx="50%"
-            cy="50%"
-            outerRadius={80}
-            label
-          >
-            {data.map((entry, index) => (
-              <Cell key={index} fill={COLORS[index]} />
-            ))}
-          </Pie>
-          <Tooltip />
-          <Legend />
-        </PieChart>
-      </ResponsiveContainer>
+    <div className="bg-white dark:bg-[#111111] border border-gray-200 dark:border-[#222222] shadow-sm dark:shadow-none rounded-xl p-5 mx-6 mt-6 flex flex-col md:flex-row items-center justify-around gap-6">
+      <div className="space-y-3">
+        <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Financial Overview</h3>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-[#cc253e]"></div>
+            <span className="text-sm text-gray-600 dark:text-gray-300">Expense ({expensePercent}%)</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-green-500"></div>
+            <span className="text-sm text-gray-600 dark:text-gray-300">Income ({incomePercent}%)</span>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className="relative w-44 h-44 rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(204,37,62,0.1)]"
+        style={{
+          background: `conic-gradient(#cc253e 0% ${expensePercent}%, #22c55e ${expensePercent}% 100%)`,
+        }}
+      >
+        <div className="absolute w-32 h-32 bg-white dark:bg-[#111111] rounded-full"></div>
+        <div className="relative text-center">
+          <span className="text-xs text-gray-400 uppercase block">Ratio</span>
+          <span className="text-xl font-bold text-gray-900 dark:text-white">{ratio}:1</span>
+        </div>
+      </div>
     </div>
   )
 }
